@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import giphy from 'giphy-api';
 import Gif from './gif';
 import GifList from './gif-list';
 import SearchBar from './search-bar';
@@ -8,26 +9,41 @@ class App extends Component {
     super(props);
 
     this.state = {
-
-    }
+      gifs: [],
+      selectedGifId: 'yoJC2GnSClbPOkV0eA'
+    };
+    this.search = this.search.bind(this);
+    this.changeSelected = this.changeSelected.bind(this);
   }
 
+  search = (query) => {
+    giphy('QjtJklp0LHcaFVD6ptl56nfXB94FXYxB').search({
+      q: query,
+      rating: 'g'
+    }, (err, res) => {
+      this.setState({
+        gifs: res.data
+      });
+    });
+  }
+
+  changeSelected = (newId) => {
+    this.setState({
+      selectedGifId: newId
+    });
+  }
 
   render () {
-    const gifs = [
-      { id: "yoJC2GnSClbPOkV0eA" },
-      { id: "f6zPcCvDhvwze3lIAR" }
-    ];
     return (
       <div>
         <div className="left-scene">
-           < SearchBar />
-           <div className="selected-gif">
-              < Gif id="yoJC2GnSClbPOkV0eA" />
-           </div>
+          <SearchBar searchFunction={this.search} />
+          <div className="selected-gif">
+            <Gif id={this.state.selectedGifId} />
+          </div>
         </div>
         <div className="right-scene">
-          < GifList gifs={gifs} />
+          <GifList gifs={this.state.gifs} changeSelected={this.changeSelected} />
         </div>
       </div>
     );
