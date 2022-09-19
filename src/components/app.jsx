@@ -21,11 +21,7 @@ class App extends Component {
   }
 
   search = (query) => {
-<<<<<<< HEAD
     giphyApi('QjtJklp0LHcaFVD6ptl56nfXB94FXYxB').search({
-=======
-    giphy('APIKEY').search({
->>>>>>> 26cb326bb3356f48ed0bc9b54d46264bcb4b5b2b
       q: query,
       rating: 'g',
       limit: 10
